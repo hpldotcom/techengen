@@ -286,7 +286,7 @@ margin-top: 150px;
 text-align: center;
 }
 .vid iframe{
-  border: 10px solid  var(--border-light);
+  border: 5px solid  var(--primary);
   border-radius: 10px;
   box-shadow: var(--shadow-lg);
   transition: 0.3;

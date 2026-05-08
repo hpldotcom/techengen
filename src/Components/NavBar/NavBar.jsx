@@ -61,9 +61,7 @@ function NavBar() {
                 <li className="nav-item">
                   <Link className={`nav-link ${styles.navLink}`} to={'products'}>Products</Link>
                 </li>
-                <li className="nav-item">
-                  <Link className={`nav-link ${styles.navLink}`} to={'brands'}>Brands</Link>
-                </li>
+             
                 <li className="nav-item">
                   <Link className={`nav-link ${styles.navLink}`} to={'categories'}>Categories</Link>
                 </li>
