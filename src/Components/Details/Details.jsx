@@ -128,7 +128,7 @@ function Details() {
                     />
                   </div>
                   <div className={styles.vid}>
-                    <h2>tutorials</h2>
+                    <h2>totorial:</h2>
                     {details.category.name === vid.category ? (
                       <iframe
                         width="560"

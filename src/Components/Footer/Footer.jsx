@@ -27,7 +27,7 @@ const Footer = () => {
               <li><Link to="/home">Home</Link></li>
               <li><Link to="/products">Products</Link></li>
               <li><Link to="/categories">Categories</Link></li>
-              <li><Link to="/brands">Brands</Link></li>
+             
             </ul>
           </div>
 
