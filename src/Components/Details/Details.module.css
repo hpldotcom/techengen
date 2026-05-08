@@ -281,3 +281,12 @@
   color: var(--text-muted);
   margin-bottom: 6px;
 }
+.vid{
+margin-top: 150px;
+text-align: center;
+}
+.vid iframe{
+  border: 10px solid  var(--border-light);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+}

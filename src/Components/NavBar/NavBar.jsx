@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import styles from './NavBar.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../../assets/images/Logo-t-online.png';
+import logo from '../../assets/images/logo.png';
 import { TockenContext } from '../../Context/Token';
 import { CartContent } from '../../Context/cartContent';
 

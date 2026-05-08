@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import API, { getImageUrl } from "../../api/api";
 import styles from "./Details.module.css";
 
+
 function Details() {
   const [details, setDetails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -36,13 +37,15 @@ function Details() {
   }, [params.id]);
 
   /** All images for this product — always fully qualified URLs */
-  const allImages = details.images && details.images.length > 0
-    ? details.images.map(img => getImageUrl(img.imageUrl)).filter(Boolean)
-    : details.imageUrl
-      ? [getImageUrl(details.imageUrl)]
-      : [];
+  const allImages =
+    details.images && details.images.length > 0
+      ? details.images.map((img) => getImageUrl(img.imageUrl)).filter(Boolean)
+      : details.imageUrl
+        ? [getImageUrl(details.imageUrl)]
+        : [];
 
-  const currentImage = allImages[activeImage] || 'https://placehold.co/500x500?text=No+Image';
+  const currentImage =
+    allImages[activeImage] || "https://placehold.co/500x500?text=No+Image";
 
   /**
    * Parse the description text into a list of spec rows.
@@ -51,11 +54,14 @@ function Details() {
    */
   function parseDescription(desc) {
     if (!desc) return { specs: [], notes: [] };
-    const lines = desc.split('\n').map(l => l.trim()).filter(Boolean);
+    const lines = desc
+      .split("\n")
+      .map((l) => l.trim())
+      .filter(Boolean);
     const specs = [];
     const notes = [];
     for (const line of lines) {
-      const colonIdx = line.indexOf(':');
+      const colonIdx = line.indexOf(":");
       if (colonIdx > 0 && colonIdx < line.length - 1) {
         const key = line.slice(0, colonIdx).trim();
         const val = line.slice(colonIdx + 1).trim();
@@ -66,17 +72,39 @@ function Details() {
       }
       notes.push(line);
     }
+
     return { specs, notes };
   }
 
   const { specs, notes } = parseDescription(details.description);
-
+  const vid = {
+    category: "cpu",
+  };
+  const vidtwo = {
+    category: "ram",
+  };
+  const vidthree = {
+    category: "gpu",
+  };
+  const vidfour = {
+    category: "motherboards",
+  };
+  const vidfive = {
+    category: "storages",
+  };
   return (
     <>
       <div className="container py-4">
         {isLoading ? (
           <div className="py-5 d-flex justify-content-center">
-            <BallTriangle height={100} width={100} radius={5} color="var(--primary)" ariaLabel="loading" visible={true} />
+            <BallTriangle
+              height={100}
+              width={100}
+              radius={5}
+              color="var(--primary)"
+              ariaLabel="loading"
+              visible={true}
+            />
           </div>
         ) : (
           <div className={styles.detailsWrap}>
@@ -94,8 +122,83 @@ function Details() {
                       src={currentImage}
                       className={styles.mainImage}
                       alt={details.name}
-                      onError={e => { e.target.src = 'https://via.placeholder.com/500'; }}
+                      onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/500";
+                      }}
                     />
+                  </div>
+                  <div className={styles.vid}>
+                    <h2>tutorials</h2>
+                    {details.category.name === vid.category ? (
+                      <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/qfeeVzxO7hw?si=wne-c88BtPJDhROe"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                      ></iframe>
+                    ) : (
+                      ""
+                    )}
+                    {details.category.name === vidtwo.category ? (
+                      <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/sqtubYn07Nk?si=m0PKT4bHNHgdKXSM"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                      ></iframe>
+                    ) : (
+                      ""
+                    )}
+                    {details.category.name === vidthree.category ? (
+                      <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/BI-Z-XwFrTw?si=LsLi6GAB7znppXXg"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                      ></iframe>
+                    ) : (
+                      ""
+                    )}
+                    {details.category.name === vidfour.category ? (
+                      <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/rV2_6ZjYtZM?si=jirp6KsF4cvRk6Dt"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                      ></iframe>
+                    ) : (
+                      ""
+                    )}
+                    {details.category.name === vidfive.category ? (
+                      <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/Bvgl4cTAD6A?si=pZxd_055d-un7qEn"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                      ></iframe>
+                    ) : (
+                      ""
+                    )}
                   </div>
 
                   {/* Thumbnail strip — only shown when more than 1 image */}
@@ -104,7 +207,7 @@ function Details() {
                       {allImages.map((img, idx) => (
                         <button
                           key={idx}
-                          className={`${styles.thumbBtn} ${idx === activeImage ? styles.thumbActive : ''}`}
+                          className={`${styles.thumbBtn} ${idx === activeImage ? styles.thumbActive : ""}`}
                           onClick={() => setActiveImage(idx)}
                           aria-label={`View image ${idx + 1}`}
                         >
@@ -112,7 +215,10 @@ function Details() {
                             src={img}
                             alt={`${details.name} view ${idx + 1}`}
                             className={styles.thumbImg}
-                            onError={e => { e.target.src = 'https://placehold.co/80x80?text=img'; }}
+                            onError={(e) => {
+                              e.target.src =
+                                "https://placehold.co/80x80?text=img";
+                            }}
                           />
                         </button>
                       ))}
@@ -124,11 +230,12 @@ function Details() {
               {/* ── Info Section ────────────────────────────────────── */}
               <div className="col-md-6">
                 <div className={styles.infoSection}>
-
                   {/* Category + Brand row */}
                   <div className={styles.metaTopRow}>
                     {details.category?.name && (
-                      <span className={styles.categoryLabel}>{details.category.name}</span>
+                      <span className={styles.categoryLabel}>
+                        {details.category.name}
+                      </span>
                     )}
                     {details.brand && (
                       <div className={styles.brandDisplay}>
@@ -137,10 +244,14 @@ function Details() {
                             src={getImageUrl(details.brand.logoUrl)}
                             alt={details.brand.name}
                             className={styles.brandLogoLg}
-                            onError={e => { e.target.style.display = 'none'; }}
+                            onError={(e) => {
+                              e.target.style.display = "none";
+                            }}
                           />
                         ) : (
-                          <span className={styles.brandNameLg}>{details.brand.name}</span>
+                          <span className={styles.brandNameLg}>
+                            {details.brand.name}
+                          </span>
                         )}
                       </div>
                     )}
@@ -149,22 +260,38 @@ function Details() {
                   <h1 className={styles.title}>{details.name}</h1>
 
                   <div className={styles.priceWrap}>
-                    <span className={styles.price}>{Number(details.price).toLocaleString()} EGP</span>
+                    <span className={styles.price}>
+                      {Number(details.price).toLocaleString()} EGP
+                    </span>
                   </div>
 
                   {/* Stock + Shipping meta */}
                   <div className={styles.metaWrap}>
                     <div className={styles.metaItem}>
-                      <div className={styles.metaIcon}><i className="fa-solid fa-boxes-stacked"></i></div>
+                      <div className={styles.metaIcon}>
+                        <i className="fa-solid fa-boxes-stacked"></i>
+                      </div>
                       <div className={styles.metaText}>
                         <span className={styles.metaLabel}>Availability</span>
-                        <span className={styles.metaValue} style={{ color: details.stock > 0 ? 'var(--secondary)' : '#ef4444' }}>
-                          {details.stock > 0 ? `${details.stock} in stock` : 'Out of stock'}
+                        <span
+                          className={styles.metaValue}
+                          style={{
+                            color:
+                              details.stock > 0
+                                ? "var(--secondary)"
+                                : "#ef4444",
+                          }}
+                        >
+                          {details.stock > 0
+                            ? `${details.stock} in stock`
+                            : "Out of stock"}
                         </span>
                       </div>
                     </div>
                     <div className={styles.metaItem}>
-                      <div className={styles.metaIcon}><i className="fa-solid fa-truck-fast"></i></div>
+                      <div className={styles.metaIcon}>
+                        <i className="fa-solid fa-truck-fast"></i>
+                      </div>
                       <div className={styles.metaText}>
                         <span className={styles.metaLabel}>Shipping</span>
                         <span className={styles.metaValue}>Free Delivery</span>
@@ -180,7 +307,7 @@ function Details() {
                       disabled={details.stock === 0}
                     >
                       <i className="fa-solid fa-cart-plus"></i>
-                      {details.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+                      {details.stock > 0 ? "Add to Cart" : "Out of Stock"}
                     </button>
                   </div>
 
@@ -190,7 +317,10 @@ function Details() {
                       <h2 className={styles.specsTitle}>Specifications</h2>
                       <div className={styles.specsTable}>
                         {specs.map(({ key, val }, i) => (
-                          <div key={i} className={`${styles.specRow} ${i % 2 === 0 ? styles.specRowEven : ''}`}>
+                          <div
+                            key={i}
+                            className={`${styles.specRow} ${i % 2 === 0 ? styles.specRowEven : ""}`}
+                          >
                             <span className={styles.specKey}>{key}</span>
                             <span className={styles.specVal}>{val}</span>
                           </div>
@@ -203,11 +333,12 @@ function Details() {
                   {notes.length > 0 && (
                     <div className={styles.notesSection}>
                       {notes.map((note, i) => (
-                        <p key={i} className={styles.noteText}>{note}</p>
+                        <p key={i} className={styles.noteText}>
+                          {note}
+                        </p>
                       ))}
                     </div>
                   )}
-
                 </div>
               </div>
             </div>
