@@ -92,10 +92,11 @@ export default function Allorders() {
                     {order.orderItems?.map((item) => (
                       <div key={item.id} className={styles.itemThumb} title={item.product?.name}>
                         <img 
-                          src={item.product?.imageUrl || 'https://via.placeholder.com/60'} 
-                          alt={item.product?.name} 
-                          className={styles.itemImage} 
-                        />
+                            src={item.product.imageUrl ? `http://localhost:5000${item.product.imageUrl}` : 'https://via.placeholder.com/60'} 
+                            alt={item.product.name}
+                            style={{ width: '60px', height: '60px', objectFit: 'contain' }}
+                            onError={(e) => { e.target.src = 'https://via.placeholder.com/60'; }}
+                          />
                         <span className={styles.itemQty}>{item.quantity}</span>
                       </div>
                     ))}

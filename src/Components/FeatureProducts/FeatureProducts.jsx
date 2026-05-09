@@ -15,7 +15,7 @@ function FeatureProducts({ selectedCategoryId = null, setSelectedCategoryId }) {
     return API.get("/products");
   }
 
-  let { isLoading, data } = useQuery({
+  let { isLoading, isError, error, data } = useQuery({
     queryKey: ['featuredProducts'],
     queryFn: getProducts
   });
@@ -54,6 +54,14 @@ function FeatureProducts({ selectedCategoryId = null, setSelectedCategoryId }) {
       {isLoading ? (
         <div className="py-5 text-center d-flex justify-content-center">
           <BallTriangle height={80} width={80} radius={5} color="var(--primary)" ariaLabel="loading" visible={true} />
+        </div>
+      ) : isError ? (
+        <div className="col-12 text-center py-5">
+          <div style={{ background: 'var(--surface)', padding: 40, borderRadius: 'var(--radius-lg)' }}>
+            <i className="fa-solid fa-triangle-exclamation mb-3" style={{ fontSize: 60, color: 'var(--border)' }}></i>
+            <h3>Failed to load products</h3>
+            <p className="text-muted">{error?.message || 'Please check the backend API and reload.'}</p>
+          </div>
         </div>
       ) : (
         <div className="row g-4 justify-content-center">

@@ -78,13 +78,14 @@ function Details() {
 
   const { specs, notes } = parseDescription(details.description);
   const vid = {
-    category: "cpu",
+    category: "CPUs",
   };
   const vidtwo = {
-    category: "ram",
+    category: "RAM",
   };
   const vidthree = {
-    category: "gpu",
+    category: "GPUs",
+
   };
   const vidfour = {
     category: "motherboards",

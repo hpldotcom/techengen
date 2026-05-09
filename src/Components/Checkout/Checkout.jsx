@@ -1,19 +1,20 @@
 import { useFormik } from 'formik';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { CartContent } from '../../Context/cartContent';
 import * as Yup from 'yup';
 import { Helmet } from 'react-helmet';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import API from '../../api/api';
 import styles from './Checkout.module.css';
 
 export default function Checkout() {
-  let { onlinePayment } = useContext(CartContent);
-
-  async function payment(values) {
-    let { data } = await onlinePayment(values);
-    if (data?.session?.url) {
-      window.location.href = data.session.url;
-    }
-  }
+  const { cartItems, clearCart } = useContext(CartContent);
+  const navigate = useNavigate();
+  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
+  const [orderId, setOrderId] = useState(null);
+  const [billingData, setBillingData] = useState(null);
+  const [shippingStep, setShippingStep] = useState(true);
 
   const validationSchema = Yup.object().shape({
     details: Yup.string().required('Details are required').min(3, 'Details are too short'),
@@ -21,11 +22,112 @@ export default function Checkout() {
     city: Yup.string().required('City is required'),
   });
 
-  let formik = useFormik({
+  const formik = useFormik({
     initialValues: { details: '', phone: '', city: '' },
     validationSchema,
-    onSubmit: payment,
+    onSubmit: async (values) => {
+      if (!cartItems || cartItems.length === 0) {
+        toast.error('Your cart is empty');
+        return;
+      }
+
+      setIsPaymentProcessing(true);
+
+      try {
+        const items = cartItems.map((item) => ({
+          productId: item.product.id,
+          quantity: item.count,
+        }));
+
+        const response = await API.post('/orders', {
+          items,
+          shippingDetails: values.details,
+          phone: values.phone,
+          city: values.city,
+        });
+
+        setOrderId(response.data.id);
+        setBillingData(values);
+        setShippingStep(false);
+      } catch (error) {
+        toast.error(error.response?.data?.message || 'Unable to create order');
+      } finally {
+        setIsPaymentProcessing(false);
+      }
+    },
   });
+
+  const handleFakePayment = async () => {
+    if (!orderId) {
+      toast.error('No order found to pay for');
+      return;
+    }
+
+    setIsPaymentProcessing(true);
+
+    try {
+      const response = await API.post(`/payment/${orderId}`);
+      toast.success(response.data.message || 'Payment completed successfully');
+      clearCart();
+      navigate('/allorders');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Payment failed');
+      console.error(error);
+    } finally {
+      setIsPaymentProcessing(false);
+    }
+  };
+
+  if (!cartItems || cartItems.length === 0) {
+    return (
+      <>
+        <Helmet>
+          <title>Checkout | Shop</title>
+        </Helmet>
+        <div className="container py-5 text-center">
+          <h2>No items in cart</h2>
+          <p>Please add products to your cart before checking out.</p>
+        </div>
+      </>
+    );
+  }
+
+  if (!shippingStep) {
+    return (
+      <>
+        <Helmet>
+          <title>Payment | Shop</title>
+        </Helmet>
+        <div className={`container page-enter ${styles.pageWrap}`}>
+          <div className={styles.paymentCard}>
+            <h2>Review & Pay</h2>
+            <p>Please confirm your payment for order #{orderId}</p>
+            <div className={styles.paymentSummary}>
+              <div>
+                <strong>Shipping Details</strong>
+                <p>{billingData.details}</p>
+                <p>{billingData.city}</p>
+                <p>{billingData.phone}</p>
+              </div>
+              <div>
+                <strong>Order Total</strong>
+                <p>
+                  {cartItems.reduce((sum, item) => sum + Number(item.product.price) * item.count, 0).toFixed(2)} EGP
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={handleFakePayment}
+              disabled={isPaymentProcessing}
+              className="btn-premium w-100"
+            >
+              {isPaymentProcessing ? 'Processing Payment...' : 'Pay Now'}
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -79,7 +181,7 @@ export default function Checkout() {
                 className={`btn-premium w-100 ${styles.submitBtn}`}
               >
                 <i className="fa-solid fa-shield-halved"></i>
-                Confirm & Pay
+                {isPaymentProcessing ? 'Processing...' : 'Confirm & Pay'}
               </button>
             </form>
           </div>

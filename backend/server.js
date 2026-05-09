@@ -19,6 +19,7 @@ import categoryRoutes from './src/routes/categoryRoutes.js';
 import orderRoutes from './src/routes/orderRoutes.js';
 import adminRoutes from './src/routes/adminRoutes.js';
 import brandRoutes from './src/routes/brandRoutes.js';
+import paymentRoutes from './src/routes/paymentRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -39,6 +40,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/brands', brandRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // Root Endpoint
 app.get('/', (req, res) => {

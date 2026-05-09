@@ -129,10 +129,17 @@ export default function AdminOrders() {
                       {order.orderItems?.slice(0, 3).map(item => (
                         <img
                           key={item.id}
-                          src={item.product?.imageUrl || 'https://via.placeholder.com/36'}
+                          src={item.product?.imageUrl ? `http://localhost:5000${item.product.imageUrl}` : 'https://via.placeholder.com/36'}
                           title={item.product?.name}
-                          alt=""
-                          style={{ width: 36, height: 36, borderRadius: 6, objectFit: 'cover', border: '1px solid rgba(255,255,255,0.1)' }}
+                          alt={item.product?.name || "Product Image"}
+                          style={{ 
+                            width: 36, 
+                            height: 36, 
+                            borderRadius: 6, 
+                            objectFit: 'cover', 
+                            border: '1px solid rgba(255,255,255,0.1)' 
+                          }}
+                          onError={(e) => { e.target.src = 'https://via.placeholder.com/36'; }}
                         />
                       ))}
                       {order.orderItems?.length > 3 && (

@@ -134,8 +134,10 @@ export default function AdminProducts() {
                 <tr key={product.id}>
                   <td>
                     <img
-                      src={product.imageUrl || 'https://via.placeholder.com/44'}
+                      src={product.imageUrl ? `http://localhost:5000${product.imageUrl}` : 'https://via.placeholder.com/44'}
                       alt={product.name}
+                      style={{ width: '50px', height: '50px', objectFit: 'contain', borderRadius: '4px' }}
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/44'; }}
                     />
                   </td>
                   <td>

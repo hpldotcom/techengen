@@ -1,12 +1,4 @@
-/**
- * Seed Script — Tech Engine Products
- * 
- * Reads the "tech engine data and content/products/" folder tree,
- * parses each product's detials.txt, copies images to backend/public/,
- * then seeds Categories → Brands → Products → ProductImages into MySQL.
- * 
- * Run: node backend/prisma/seed.js
- */
+
 
 import { PrismaClient } from '@prisma/client';
 import fs from 'fs';
@@ -17,16 +9,16 @@ const prisma = new PrismaClient();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ── Paths ──────────────────────────────────────────────────────────────────
+
 const DATA_ROOT = path.resolve(
   __dirname,
-  '../../tech engine data and content/products'
+  '../../products'
 );
 const PUBLIC_ROOT = path.resolve(__dirname, '../public');
 const PRODUCTS_PUBLIC = path.join(PUBLIC_ROOT, 'products');
 const BRANDS_PUBLIC = path.join(PUBLIC_ROOT, 'brands');
 
-// ── Category folder → DB mapping ───────────────────────────────────────────
+
 const CATEGORY_MAP = {
   '1- CPUs (10-2)':              { name: 'CPUs',               slug: 'cpus' },
   '2- motherboards (15-2)':      { name: 'Motherboards',        slug: 'motherboards' },
@@ -41,7 +33,7 @@ const CATEGORY_MAP = {
   '11- prebult computers (3-3)': { name: 'Prebuilt Computers',  slug: 'prebuilt-computers' },
 };
 
-// ── Helpers ────────────────────────────────────────────────────────────────
+
 
 /** Recursively ensure a directory exists */
 function ensureDir(dirPath) {
@@ -74,10 +66,10 @@ function parseDetails(filePath) {
     return null;
   }
 
-  // Normalize line endings
+  
   const text = raw.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
-  // Extract sections using case-insensitive markers
+  
   const nameMatch    = text.match(/product\s+name\s*:\s*([\s\S]*?)(?=price\s*:|$)/i);
   const priceMatch   = text.match(/price\s*:\s*([\s\S]*?)(?=details\s*:|$)/i);
   const detailsMatch = text.match(/details\s*:\s*([\s\S]*)/i);
@@ -86,13 +78,13 @@ function parseDetails(filePath) {
   const rawPrice = priceMatch  ? priceMatch[1].trim()  : '0';
   const rawDesc  = detailsMatch ? detailsMatch[1].trim() : '';
 
-  // Clean up the name (take first non-empty line)
+  
   const name = rawName.split('\n').map(l => l.trim()).filter(Boolean)[0] || '';
 
-  // Extract numeric price (strip EGP, commas, spaces)
+  
   const priceNum = parseFloat(rawPrice.replace(/[^0-9.]/g, '')) || 0;
 
-  // Clean description
+  
   const description = rawDesc.split('\n').map(l => l.trim()).filter(Boolean).join('\n');
 
   return { name, price: priceNum, description };
@@ -111,16 +103,21 @@ function getImages(dirPath) {
   }
 }
 
-// ── Main Seed ──────────────────────────────────────────────────────────────
+
 async function main() {
   console.log('🌱 Starting seed...\n');
+
+  if (!fs.existsSync(DATA_ROOT)) {
+    console.error(`❌ Data root not found: ${DATA_ROOT}`);
+    process.exit(1);
+  }
 
   ensureDir(PRODUCTS_PUBLIC);
   ensureDir(BRANDS_PUBLIC);
 
-  // ── 1. Seed Categories ──────────────────────────────────────────────────
+  
   console.log('📦 Seeding categories...');
-  const categoryRecords = {}; // folderName → DB record
+  const categoryRecords = {}; 
 
   for (const [folderName, { name, slug }] of Object.entries(CATEGORY_MAP)) {
     const cat = await prisma.category.upsert({
@@ -132,10 +129,10 @@ async function main() {
     console.log(`  ✔ Category: ${cat.name} (id=${cat.id})`);
   }
 
-  // ── 2. Seed Brands (from brands folder) ────────────────────────────────
+  
   console.log('\n🏷️  Seeding brands...');
   const brandsFolder = path.join(DATA_ROOT, 'brands (16-16)');
-  const brandRecords = {}; // brandNameLower → DB record
+  const brandRecords = {}; 
 
   if (fs.existsSync(brandsFolder)) {
     const brandDirs = fs.readdirSync(brandsFolder).filter(d =>
@@ -143,12 +140,12 @@ async function main() {
     );
 
     for (const brandDirName of brandDirs) {
-      const brandName = brandDirName; // e.g. "AMD", "INTEL"
+      const brandName = brandDirName; 
       const slug = slugify(brandName);
       const brandSrcDir = path.join(brandsFolder, brandDirName);
       const brandDestDir = path.join(BRANDS_PUBLIC, slug);
 
-      // Copy logo image
+      
       const logoFiles = getImages(brandSrcDir);
       let logoUrl = null;
       if (logoFiles.length > 0) {
@@ -169,7 +166,7 @@ async function main() {
     }
   }
 
-  // ── 3. Seed Products ────────────────────────────────────────────────────
+  
   console.log('\n🖥️  Seeding products...');
   let productCount = 0;
   let imageCount   = 0;
@@ -179,21 +176,21 @@ async function main() {
     const catPath = path.join(DATA_ROOT, catFolderName);
     if (!fs.existsSync(catPath)) continue;
 
-    // Brand-level subdirectories (or flat product directories)
+    
     const catContents = fs.readdirSync(catPath);
 
     for (const brandOrProductDir of catContents) {
       const bopPath = path.join(catPath, brandOrProductDir);
       if (!fs.statSync(bopPath).isDirectory()) continue;
 
-      // Check if this is a brand folder (contains product subdirs) or a direct product folder
+      
       const bopContents = fs.readdirSync(bopPath);
       const hasSubDirs = bopContents.some(item =>
         fs.statSync(path.join(bopPath, item)).isDirectory()
       );
 
       if (hasSubDirs) {
-        // This is a brand folder — iterate products inside
+        
         const brandName = brandOrProductDir;
         const brandRecord = brandRecords[brandName.toLowerCase()] || null;
 
@@ -217,7 +214,7 @@ async function main() {
           }
         }
       } else {
-        // This is a direct product folder (no brand subfolder level)
+        
         const result = await seedProduct({
           productPath: bopPath,
           productDir: brandOrProductDir,
@@ -242,15 +239,15 @@ async function main() {
   console.log(`   Skipped         : ${skipped}`);
 }
 
-// ── Seed a single product ──────────────────────────────────────────────────
+
 async function seedProduct({ productPath, productDir, categoryRecord, brandRecord, catFolderName, brandName }) {
   const detailsFile = path.join(productPath, 'detials.txt');
 
-  // Parse details
+  
   const details = parseDetails(detailsFile);
   const productName = (details?.name && details.name.length > 0)
     ? details.name
-    : productDir; // Fall back to folder name
+    : productDir; 
 
   if (!productName || productName.trim() === '') {
     console.log(`  ⚠ Skipping (no name): ${productPath}`);
@@ -260,13 +257,13 @@ async function seedProduct({ productPath, productDir, categoryRecord, brandRecor
   const price       = details?.price || 0;
   const description = details?.description || '';
 
-  // Build safe public destination path
+  
   const catSlug   = slugify(catFolderName.replace(/\([\d-]+\)/g, '').trim());
   const brandSlug = brandName ? slugify(brandName) : 'unknown';
   const prodSlug  = slugify(productDir);
   const destDir   = path.join(PRODUCTS_PUBLIC, catSlug, brandSlug, prodSlug);
 
-  // Copy images
+  
   const imageFiles = getImages(productPath);
   const imageUrls  = [];
 
@@ -279,7 +276,7 @@ async function seedProduct({ productPath, productDir, categoryRecord, brandRecor
 
   const primaryImageUrl = imageUrls[0] || null;
 
-  // Upsert product (by name + categoryId to avoid duplicates on re-runs)
+  
   let product;
   try {
     const existing = await prisma.product.findFirst({
@@ -314,7 +311,7 @@ async function seedProduct({ productPath, productDir, categoryRecord, brandRecor
     return null;
   }
 
-  // Delete old images then re-insert
+  
   await prisma.productImage.deleteMany({ where: { productId: product.id } });
   for (let i = 0; i < imageUrls.length; i++) {
     await prisma.productImage.create({
@@ -326,7 +323,7 @@ async function seedProduct({ productPath, productDir, categoryRecord, brandRecor
   return { imageCount: imageUrls.length };
 }
 
-// ── Run ────────────────────────────────────────────────────────────────────
+
 main()
   .catch(e => {
     console.error('❌ Seed failed:', e);

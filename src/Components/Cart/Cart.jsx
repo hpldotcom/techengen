@@ -35,18 +35,8 @@ export default function Cart() {
       toast.error('Your cart is empty!');
       return;
     }
-    try {
-      const items = cartItems.map(item => ({
-        productId: item.product.id,
-        quantity: item.count
-      }));
-      await API.post('/orders', { items });
-      toast.success('Order placed successfully!');
-      clearCart();
-      navigate('/allorders');
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to place order');
-    }
+
+    navigate('/checkout');
   }
 
   useEffect(() => {
@@ -84,7 +74,13 @@ export default function Cart() {
                 {cartDetails.data.products.map((ele) => (
                   <div key={ele.product.id} className={styles.cartItem}>
                     <div className={styles.itemImageWrap}>
-                      <img src={ele.product.imageUrl || 'https://via.placeholder.com/100'} className={styles.itemImage} alt={ele.product.name} />
+                      {/* To this: */}
+                        <img 
+                          src={ele.product.imageUrl ? `http://localhost:5000${ele.product.imageUrl}` : 'https://via.placeholder.com/100'} 
+                          className={styles.itemImage} 
+                          alt={ele.product.name}
+                          onError={(e) => { e.target.src = 'https://via.placeholder.com/100'; }}
+                        />
                     </div>
                     <div className={styles.itemInfo}>
                       <h4 className={styles.itemName}>{ele.product.name}</h4>

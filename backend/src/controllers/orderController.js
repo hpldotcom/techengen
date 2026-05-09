@@ -2,7 +2,7 @@ import prisma from '../config/prisma.js';
 
 export const placeOrder = async (req, res) => {
   try {
-    const { items } = req.body; // items: [{ productId, quantity }]
+    const { items, shippingDetails, phone, city } = req.body; // items: [{ productId, quantity }]
     
     if (!items || items.length === 0) {
       return res.status(400).json({ message: 'No items in order' });
@@ -44,6 +44,9 @@ export const placeOrder = async (req, res) => {
         data: {
           userId: req.user.id,
           totalPrice,
+          shippingDetails,
+          phone,
+          city,
           orderItems: {
             create: orderItemsData
           }
