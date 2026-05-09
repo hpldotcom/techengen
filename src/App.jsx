@@ -16,6 +16,7 @@ import AdminRoute from './ProtectedRoutes/AdminRoute';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Details from './Components/Details/Details';
 import Checkout from './Components/Checkout/Checkout';
+import PaymentFrame from './Components/Checkout/PaymentFrame';
 import Allorders from './Components/Allorders/Allorders';
 import AdminPanel from './Components/Admin/AdminPanel';
 
@@ -37,6 +38,7 @@ let {setToken} = useContext(TockenContext)
       {path :"cart", element: <ProtectedRoutes><Cart/></ProtectedRoutes> },
       {path :'details/:id', element: <ProtectedRoutes><Details/></ProtectedRoutes> },
       {path :'checkout', element: <ProtectedRoutes><Checkout/></ProtectedRoutes> },
+      {path :'payment-frame/:orderId', element: <ProtectedRoutes><PaymentFrame/></ProtectedRoutes> },
       {path :"allorders", element: <ProtectedRoutes><Allorders/></ProtectedRoutes> },
 
       {path :"register", element: <Register/> },

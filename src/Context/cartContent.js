@@ -1,10 +1,21 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export let CartContent = createContext();
 
+function loadCart() {
+  try {
+    const raw = localStorage.getItem('cartItems');
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
 export default function CartContentProvider(props) {
-  const [cartItems, setCartItems] = useState([]);
-  const [numOfCartItems, setNumOfCartItems] = useState(0);
+  const [cartItems, setCartItems] = useState(() => loadCart());
+  const [numOfCartItems, setNumOfCartItems] = useState(() =>
+    loadCart().reduce((sum, item) => sum + item.count, 0)
+  );
 
   function addToCart(product) {
     setCartItems((prev) => {
@@ -74,6 +85,11 @@ export default function CartContentProvider(props) {
     setCartItems([]);
     setNumOfCartItems(0);
   }
+
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    setNumOfCartItems(cartItems.reduce((sum, item) => sum + item.count, 0));
+  }, [cartItems]);
 
   return (
     <CartContent.Provider
