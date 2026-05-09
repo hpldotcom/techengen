@@ -88,10 +88,10 @@ function Details() {
 
   };
   const vidfour = {
-    category: "motherboards",
+    category: "Motherboards",
   };
   const vidfive = {
-    category: "storages",
+    category: "Storage",
   };
   return (
     <>
@@ -134,7 +134,7 @@ function Details() {
                       <iframe
                         width="560"
                         height="315"
-                        src="https://www.youtube.com/embed/qfeeVzxO7hw?si=wne-c88BtPJDhROe"
+                        src="https://www.youtube.com/embed/1e_iONag2gI?si=C5cHKgxIrFGC0Z7V"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -148,7 +148,7 @@ function Details() {
                       <iframe
                         width="560"
                         height="315"
-                        src="https://www.youtube.com/embed/sqtubYn07Nk?si=m0PKT4bHNHgdKXSM"
+                        src="https://www.youtube.com/embed/zFH3z3UDlgc?si=XXvHLf33vVOAPvb_"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -162,7 +162,7 @@ function Details() {
                       <iframe
                         width="560"
                         height="315"
-                        src="https://www.youtube.com/embed/BI-Z-XwFrTw?si=LsLi6GAB7znppXXg"
+                        src="https://www.youtube.com/embed/usFzvOSsOzw?si=nLZ7eGZ1UBEfCNNj"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -176,7 +176,7 @@ function Details() {
                       <iframe
                         width="560"
                         height="315"
-                        src="https://www.youtube.com/embed/rV2_6ZjYtZM?si=jirp6KsF4cvRk6Dt"
+                        src="https://www.youtube.com/embed/1e_iONag2gI?si=pn1CWfws1qpX5wzF"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -190,7 +190,7 @@ function Details() {
                       <iframe
                         width="560"
                         height="315"
-                        src="https://www.youtube.com/embed/Bvgl4cTAD6A?si=pZxd_055d-un7qEn"
+                        src="https://www.youtube.com/embed/m9wwGUThJLk?si=xoGzHFKZoT7spJ_k"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
