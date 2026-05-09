@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Footer.module.css';
 import logo from '../../assets/images/logo.png';
 import { Link } from 'react-router-dom';
+import { FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -17,7 +18,7 @@ const Footer = () => {
               <a href="https://www.facebook.com/share/17X15KRGb3/" className={styles.socialIcon}><i className="fa-brands fa-facebook-f"></i></a>
               <a href="https://x.com/wmhmd0889" className={styles.socialIcon}><i className="fa-brands fa-twitter"></i></a>
               <a href="https://www.instagram.com/tech.engune135?igsh=MXN0bHUydWNjbTUxNQ==" className={styles.socialIcon}><i className="fa-brands fa-instagram"></i></a>
-             
+              <a href="https://www.youtube.com/@9nemi641" className={styles.socialIcon}><FaYoutube /></a>
             </div>
           </div>
 
@@ -56,7 +57,7 @@ const Footer = () => {
         </div>
 
         <div className={styles.copyright}>
-          &copy; {new Date().getFullYear()} Shop eCommerce. All rights reserved. Built with ❤️.
+          &copy; {new Date().getFullYear()} Shop googoogaagaa. All rights reserved. Built with ❤️.
         </div>
       </div>
     </footer>

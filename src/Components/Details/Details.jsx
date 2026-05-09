@@ -128,13 +128,38 @@ function Details() {
                       }}
                     />
                   </div>
+                  
+
+                  {/* Thumbnail strip — only shown when more than 1 image */}
+                  {allImages.length > 1 && (
+                    <div className={styles.thumbnailStrip}>
+                      {allImages.map((img, idx) => (
+                        <button
+                          key={idx}
+                          className={`${styles.thumbBtn} ${idx === activeImage ? styles.thumbActive : ""}`}
+                          onClick={() => setActiveImage(idx)}
+                          aria-label={`View image ${idx + 1}`}
+                        >
+                          <img
+                            src={img}
+                            alt={`${details.name} view ${idx + 1}`}
+                            className={styles.thumbImg}
+                            onError={(e) => {
+                              e.target.src =
+                                "https://placehold.co/80x80?text=img";
+                            }}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
                   <div className={styles.vid}>
                     <h2>totorial:</h2>
                     {details.category.name === vid.category ? (
                       <iframe
                         width="560"
                         height="315"
-                        src="https://www.youtube.com/embed/1e_iONag2gI?si=C5cHKgxIrFGC0Z7V"
+                        src="https://www.youtube.com/embed/usFzvOSsOzw?si=nLZ7eGZ1UBEfCNNj"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -162,7 +187,7 @@ function Details() {
                       <iframe
                         width="560"
                         height="315"
-                        src="https://www.youtube.com/embed/usFzvOSsOzw?si=nLZ7eGZ1UBEfCNNj"
+                        src="https://www.youtube.com/embed/1e_iONag2gI?si=C5cHKgxIrFGC0Z7V"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -176,7 +201,7 @@ function Details() {
                       <iframe
                         width="560"
                         height="315"
-                        src="https://www.youtube.com/embed/1e_iONag2gI?si=pn1CWfws1qpX5wzF"
+                        src="https://www.youtube.com/embed/nBfVC9ehVtk?si=GGz9kfy7_41uXS4m"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -201,30 +226,6 @@ function Details() {
                       ""
                     )}
                   </div>
-
-                  {/* Thumbnail strip — only shown when more than 1 image */}
-                  {allImages.length > 1 && (
-                    <div className={styles.thumbnailStrip}>
-                      {allImages.map((img, idx) => (
-                        <button
-                          key={idx}
-                          className={`${styles.thumbBtn} ${idx === activeImage ? styles.thumbActive : ""}`}
-                          onClick={() => setActiveImage(idx)}
-                          aria-label={`View image ${idx + 1}`}
-                        >
-                          <img
-                            src={img}
-                            alt={`${details.name} view ${idx + 1}`}
-                            className={styles.thumbImg}
-                            onError={(e) => {
-                              e.target.src =
-                                "https://placehold.co/80x80?text=img";
-                            }}
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  )}
                 </div>
               </div>
 
