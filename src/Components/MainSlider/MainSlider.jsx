@@ -1,10 +1,16 @@
 import React from 'react';
-import mainImg1 from '../../assets/images/slider-image-1.jpeg';
-import mainImg2 from '../../assets/images/slider-image-2.jpeg';
-import mainImg3 from '../../assets/images/slider-image-3.jpeg';
+import mainImg1 from '../../assets/images/slider1.jpeg';
+import mainImg2 from '../../assets/images/slider2.jpeg';
+import mainImg3 from '../../assets/images/slider3.png';
 import Slider from "react-slick";
-import blog1 from '../../assets/images/blog-img-1.jpeg';
-import blog2 from '../../assets/images/blog-img-2.jpeg';
+import blog1 from '../../assets/images/side1.png';
+import blog2 from '../../assets/images/side2.png';
+import sideWhite1 from '../../assets/images/sidewhite1.png'
+import sideWhite2 from '../../assets/images/sidewhite2.png'
+import sideOrange1 from '../../assets/images/sideorange1.png'
+import sideOrange2 from '../../assets/images/sideorange2.png'
+import sideBlack1 from '../../assets/images/sideblack1.png'
+import sideBlack2 from '../../assets/images/sideblack2.png'
 import { Link } from 'react-router-dom';
 import styles from './MainSlider.module.css';
 
@@ -48,15 +54,25 @@ export default function MainSlider() {
             </Slider>
           </div>
         </div>
-
+  
         <div className="col-lg-3 col-md-12 d-flex flex-lg-column flex-row gap-2">
+        
           <div className={styles.sideImg}>
-            <img src={blog1} alt="Blog 1" className={styles.sideImgEl} />
-            <div className={styles.sideLabel}>Seasonal Picks</div>
+            <Slider {...settings}>
+              {[sideWhite2,sideOrange2, sideBlack2].map((img, i) => (
+               <img src={img} className={styles.sideImgEl} alt={`Slide ${i + 1}`} />
+              ))}
+            </Slider>
+           
+           
           </div>
           <div className={styles.sideImg}>
-            <img src={blog2} alt="Blog 2" className={styles.sideImgEl} />
-            <div className={styles.sideLabel}>Best Sellers</div>
+             <Slider {...settings}>
+              {[sideWhite1,sideOrange1, sideBlack1].map((img, i) => (
+               <img src={img} className={styles.sideImgEl} alt={`Slide ${i + 1}`} />
+              ))}
+            </Slider>
+           
           </div>
         </div>
       </div>

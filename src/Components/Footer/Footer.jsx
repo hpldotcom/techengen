@@ -14,10 +14,10 @@ const Footer = () => {
               Your premium destination for the best products online. We deliver quality, speed, and exceptional customer service directly to your door.
             </p>
             <div className={styles.socialIcons}>
-              <a href="#" className={styles.socialIcon}><i className="fa-brands fa-facebook-f"></i></a>
-              <a href="#" className={styles.socialIcon}><i className="fa-brands fa-twitter"></i></a>
-              <a href="#" className={styles.socialIcon}><i className="fa-brands fa-instagram"></i></a>
-              <a href="#" className={styles.socialIcon}><i className="fa-brands fa-linkedin-in"></i></a>
+              <a href="https://www.facebook.com/share/17X15KRGb3/" className={styles.socialIcon}><i className="fa-brands fa-facebook-f"></i></a>
+              <a href="https://x.com/wmhmd0889" className={styles.socialIcon}><i className="fa-brands fa-twitter"></i></a>
+              <a href="https://www.instagram.com/tech.engune135?igsh=MXN0bHUydWNjbTUxNQ==" className={styles.socialIcon}><i className="fa-brands fa-instagram"></i></a>
+             
             </div>
           </div>
 
@@ -31,7 +31,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="col-lg-2 col-md-6">
+          {/* <div className="col-lg-2 col-md-6">
             <h4 className={styles.footerTitle}>Support</h4>
             <ul className={styles.footerLinks}>
               <li><Link to="#">Help Center</Link></li>
@@ -39,7 +39,7 @@ const Footer = () => {
               <li><Link to="#">Privacy Policy</Link></li>
               <li><Link to="#">Contact Us</Link></li>
             </ul>
-          </div>
+          </div> */}
 
           <div className="col-lg-4 col-md-6">
             <h4 className={styles.footerTitle}>Newsletter</h4>
